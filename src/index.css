@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design system for Dira Naturals — all colors in HSL */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Warm neutral palette */
+    --background: 35 45% 97%; /* coral sand */
+    --foreground: 26 24% 16%; /* earthy deep taupe */
+
+    --card: 35 45% 98%;
+    --card-foreground: 26 24% 16%;
+
+    --popover: 35 45% 98%;
+    --popover-foreground: 26 24% 16%;
+
+    --primary: 188 40% 24%; /* dhow teal */
+    --primary-foreground: 45 25% 96%; /* warm ivory */
+
+    --secondary: 42 35% 92%; /* savannah cream */
+    --secondary-foreground: 26 24% 16%;
+
+    --muted: 35 25% 90%;
+    --muted-foreground: 26 10% 38%;
+
+    --accent: 18 55% 46%; /* spice terracotta */
+    --accent-foreground: 26 24% 16%;
+
+    --destructive: 2 84% 58%;
+    --destructive-foreground: 45 25% 96%;
+
+    --border: 30 18% 82%;
+    --input: 30 18% 82%;
+    --ring: 188 35% 36%; /* teal focus ring */
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 35 45% 97%;
+    --sidebar-foreground: 26 24% 16%;
+    --sidebar-primary: 188 40% 24%;
+    --sidebar-primary-foreground: 45 25% 96%;
+    --sidebar-accent: 42 35% 92%;
+    --sidebar-accent-foreground: 26 24% 16%;
+    --sidebar-border: 30 18% 82%;
+    --sidebar-ring: 188 35% 36%;
+
+    /* Typography */
+    --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans';
+  }
+
+  .dark {
+    --background: 198 30% 12%; /* deep ocean */
+    --foreground: 42 25% 92%; /* warm ivory */
+
+    --card: 198 28% 14%;
+    --card-foreground: 42 25% 92%;
+
+    --popover: 198 28% 14%;
+    --popover-foreground: 42 25% 92%;
+
+    --primary: 42 70% 55%; /* savannah gold accent */
+    --primary-foreground: 26 25% 15%;
+
+    --secondary: 198 22% 18%;
+    --secondary-foreground: 42 25% 92%;
+
+    --muted: 198 22% 18%;
+    --muted-foreground: 42 10% 72%;
+
+    --accent: 18 60% 50%; /* spice terracotta */
+    --accent-foreground: 26 25% 15%;
+
+    --destructive: 2 62% 44%;
+    --destructive-foreground: 42 25% 92%;
+
+    --border: 198 18% 22%;
+    --input: 198 18% 22%;
+    --ring: 42 70% 55%;
+
+    --sidebar-background: 198 30% 12%;
+    --sidebar-foreground: 42 25% 92%;
+    --sidebar-primary: 42 70% 55%;
+    --sidebar-primary-foreground: 26 25% 15%;
+    --sidebar-accent: 198 22% 18%;
+    --sidebar-accent-foreground: 42 25% 92%;
+    --sidebar-border: 198 18% 22%;
+    --sidebar-ring: 42 70% 55%;
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; font-family: var(--font-sans); }
+  h1,h2,h3,h4 { font-family: var(--font-serif); letter-spacing: 0.01em; }
+}
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground px-6 py-3 font-medium tracking-wide transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none; }
+  .btn-ghost { @apply inline-flex items-center justify-center rounded-lg border border-border bg-transparent text-foreground px-6 py-3 font-medium hover:bg-accent/10 transition-colors; }
+  .btn-accent { @apply inline-flex items-center justify-center rounded-lg bg-accent text-accent-foreground px-6 py-3 font-medium hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring; }
+  .section { @apply py-20 md:py-28; }
+  .heading-xl { @apply text-4xl md:text-6xl leading-tight; }
+  .heading-md { @apply text-2xl md:text-3xl leading-snug; }
+  .body-lg { @apply text-lg text-muted-foreground; }
+  .card-lux { @apply bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow; }
+}
+
+@layer utilities {
+  .story-link { @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left; }
+  .hover-scale { @apply transition-transform duration-200 hover:scale-105; }
+  .pulse { @apply animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]; }
+}
