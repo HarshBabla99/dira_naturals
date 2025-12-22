@@ -12,13 +12,16 @@ import CartSidebar from "./components/CartSidebar";
 
 const queryClient = new QueryClient();
 
+const routerBase =
+  import.meta.env.BASE_URL === "./" ? "/" : import.meta.env.BASE_URL;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <CartProvider>
-        <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <BrowserRouter basename={routerBase}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
