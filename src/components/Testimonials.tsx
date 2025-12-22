@@ -1,7 +1,7 @@
 const Testimonials = () => {
   const quotes = [
     {
-      name: "Anaïs",
+      name: "Jack",
       text: "The only soap that feels truly indulgent—soft, creamy lather and a scent that lingers subtly.",
     },
     {
@@ -9,7 +9,7 @@ const Testimonials = () => {
       text: "Minimal packaging, maximal experience. My skin feels balanced and calm.",
     },
     {
-      name: "Harper",
+      name: "Winnie",
       text: "Quiet luxury in a bar. It transformed my morning routine.",
     },
   ];
