@@ -5,9 +5,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 
-// NOTE: Replace with your shop's WhatsApp number in E.164 format (no + sign), e.g., "255712345678"
 // In production, consider storing this in Supabase secrets and reading it via an Edge Function.
-const SHOP_WHATSAPP_NUMBER = "REPLACE_WITH_E164_NUMBER";
+const SHOP_WHATSAPP_NUMBER = "255695234234";
 
 type PaymentMethod = "cod" | "mobile";
 type MobileWallet = "airtel" | "tigo" | "mpesa";
@@ -60,8 +59,8 @@ const Checkout = () => {
     const email = String(fd.get("email") || "").trim();
     const address = String(fd.get("address") || "").trim();
     const city = String(fd.get("city") || "").trim();
-    const state = String(fd.get("state") || "").trim();
-    const zip = String(fd.get("zip") || "").trim();
+    const region = String(fd.get("region") || "").trim();
+    const pobox = String(fd.get("pobox") || "").trim();
 
     const orderLines = items
       .map(
@@ -69,7 +68,7 @@ const Checkout = () => {
       )
       .join("\n");
 
-    const baseDetails = `Customer: ${fullName}\nEmail: ${email}\nAddress: ${address}, ${city}, ${state} ${zip}`;
+    const baseDetails = `Customer: ${fullName}\nEmail: ${email}\nAddress: ${address}, ${city}, ${region} ${pobox}`;
 
     // Resolve shop WhatsApp number; abort if not configured
     const phone = SHOP_WHATSAPP_NUMBER;
@@ -183,20 +182,20 @@ const Checkout = () => {
               </div>
               <label className="flex flex-col gap-2 text-sm">
                 Address
-                <input name="address" required className="border rounded-md px-4 py-3 bg-background" placeholder="123 Serenity Lane" />
+                <input name="address" required className="border rounded-md px-4 py-3 bg-background" placeholder="123 Kisutu Street" />
               </label>
               <div className="grid md:grid-cols-3 gap-4">
                 <label className="flex flex-col gap-2 text-sm">
                   City
-                  <input name="city" required className="border rounded-md px-4 py-3 bg-background" placeholder="San Francisco" />
+                  <input name="city" required className="border rounded-md px-4 py-3 bg-background" placeholder="Dar es Salaam" />
                 </label>
                 <label className="flex flex-col gap-2 text-sm">
-                  State
-                  <input name="state" required className="border rounded-md px-4 py-3 bg-background" placeholder="CA" />
+                  Region
+                  <input name="region" required className="border rounded-md px-4 py-3 bg-background" placeholder="Dar es Salaam" />
                 </label>
                 <label className="flex flex-col gap-2 text-sm">
-                  ZIP
-                  <input name="zip" required className="border rounded-md px-4 py-3 bg-background" placeholder="94107" />
+                  PO Box
+                  <input name="pobox" required className="border rounded-md px-4 py-3 bg-background" placeholder="12345" />
                 </label>
               </div>
 
