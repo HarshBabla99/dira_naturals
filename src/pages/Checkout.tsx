@@ -240,12 +240,122 @@ const Checkout = () => {
       <BrandHeader />
       <main className="py-8 md:py-12">
         <div className="container mx-auto px-6">
-          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-8">{t("checkout")}</h1>
+          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-6 lg:mb-8">{t("checkout")}</h1>
           
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Left Column - Form */}
-            <section aria-labelledby="checkout-form">
-              <form onSubmit={onSubmit} className="space-y-6">
+          {/* Mobile: Order Summary first, then form */}
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12">
+            {/* Order Summary - Shows first on mobile, second on desktop */}
+            <aside className="order-1 lg:order-2 space-y-6">
+              <div className="card-lux">
+                <h2 className="font-serif text-lg">{t("orderSummary")}</h2>
+                <div className="mt-4 space-y-4">
+                  {items.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">{t("emptyCart")}</p>
+                  ) : (
+                    items.map((i) => (
+                      <div key={i.id} className="flex items-center gap-4">
+                        <img src={i.image} alt={i.alt} className="h-16 w-16 rounded-md border object-cover" />
+                        <div className="flex-1">
+                          <p className="text-sm">
+                            {i.name} × {i.quantity}
+                          </p>
+                        </div>
+                        <span className="text-sm font-medium">${(i.price * i.quantity).toFixed(2)}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                {/* Promo Code */}
+                <div className="mt-6 pt-4 border-t border-border">
+                  <label className="text-sm font-medium">Promo Code</label>
+                  {appliedPromo ? (
+                    <div className="mt-2 flex items-center justify-between bg-muted/50 rounded-md px-3 py-2">
+                      <span className="text-sm">
+                        <span className="font-medium">{appliedPromo.code}</span>
+                        <span className="text-muted-foreground ml-2">
+                          (-{appliedPromo.type === "percent" ? `${appliedPromo.discount}%` : `$${appliedPromo.discount}`})
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={removePromoCode}
+                        className="text-sm text-destructive hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mt-2 flex gap-2">
+                      <input
+                        type="text"
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        placeholder="Enter code"
+                        className="flex-1 border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring"
+                      />
+                      <button
+                        type="button"
+                        onClick={applyPromoCode}
+                        className="btn-ghost text-sm px-4 py-2"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Price Breakdown */}
+                <div className="mt-6 pt-4 border-t border-border space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                  {appliedPromo && (
+                    <div className="flex justify-between text-success">
+                      <span>Discount ({appliedPromo.code})</span>
+                      <span>-${promoDiscount.toFixed(2)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">
+                      {deliveryMethod === "delivery" ? "Delivery" : "Pickup"}
+                    </span>
+                    <span>{deliveryFee > 0 ? `$${deliveryFee.toFixed(2)}` : "Free"}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">VAT (18%)</span>
+                    <span>${vat.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between font-semibold text-base pt-2 border-t border-border">
+                    <span>Total</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Place Order Button - Desktop only, positioned in right column */}
+              <button
+                type="submit"
+                form="checkout-form"
+                className="btn w-full hidden lg:flex"
+                disabled={submitting || items.length === 0}
+                onClick={(e) => {
+                  // Trigger form submission
+                  const form = document.querySelector('form');
+                  if (form) {
+                    form.requestSubmit();
+                  }
+                  e.preventDefault();
+                }}
+              >
+                {submitting ? t("processing") : `${t("placeOrder")} — $${total.toFixed(2)}`}
+              </button>
+            </aside>
+
+            {/* Form Section - Shows second on mobile, first on desktop */}
+            <section aria-labelledby="checkout-form" className="order-2 lg:order-1">
+              <form id="checkout-form" onSubmit={onSubmit} className="space-y-6">
                 {/* Customer Details */}
                 <div className="space-y-4">
                   <h2 className="font-serif text-lg">{t("customerDetails")}</h2>
@@ -399,121 +509,12 @@ const Checkout = () => {
                   </div>
                 )}
 
-                {/* Hidden submit for mobile - actual button is in the right column on desktop */}
+                {/* Submit button for mobile */}
                 <button type="submit" className="btn w-full lg:hidden" disabled={submitting || items.length === 0}>
                   {submitting ? t("processing") : `${t("placeOrder")} — $${total.toFixed(2)}`}
                 </button>
               </form>
             </section>
-
-            {/* Right Column - Order Summary */}
-            <aside className="space-y-6">
-              <div className="card-lux">
-                <h2 className="font-serif text-lg">{t("orderSummary")}</h2>
-                <div className="mt-4 space-y-4">
-                  {items.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">{t("emptyCart")}</p>
-                  ) : (
-                    items.map((i) => (
-                      <div key={i.id} className="flex items-center gap-4">
-                        <img src={i.image} alt={i.alt} className="h-16 w-16 rounded-md border object-cover" />
-                        <div className="flex-1">
-                          <p className="text-sm">
-                            {i.name} × {i.quantity}
-                          </p>
-                        </div>
-                        <span className="text-sm font-medium">${(i.price * i.quantity).toFixed(2)}</span>
-                      </div>
-                    ))
-                  )}
-                </div>
-
-                {/* Promo Code */}
-                <div className="mt-6 pt-4 border-t border-border">
-                  <label className="text-sm font-medium">Promo Code</label>
-                  {appliedPromo ? (
-                    <div className="mt-2 flex items-center justify-between bg-muted/50 rounded-md px-3 py-2">
-                      <span className="text-sm">
-                        <span className="font-medium">{appliedPromo.code}</span>
-                        <span className="text-muted-foreground ml-2">
-                          (-{appliedPromo.type === "percent" ? `${appliedPromo.discount}%` : `$${appliedPromo.discount}`})
-                        </span>
-                      </span>
-                      <button
-                        type="button"
-                        onClick={removePromoCode}
-                        className="text-sm text-destructive hover:underline"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="mt-2 flex gap-2">
-                      <input
-                        type="text"
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
-                        placeholder="Enter code"
-                        className="flex-1 border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                      />
-                      <button
-                        type="button"
-                        onClick={applyPromoCode}
-                        className="btn-ghost text-sm px-4 py-2"
-                      >
-                        Apply
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Price Breakdown */}
-                <div className="mt-6 pt-4 border-t border-border space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
-                  </div>
-                  {appliedPromo && (
-                    <div className="flex justify-between text-success">
-                      <span>Discount ({appliedPromo.code})</span>
-                      <span>-${promoDiscount.toFixed(2)}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">
-                      {deliveryMethod === "delivery" ? "Delivery" : "Pickup"}
-                    </span>
-                    <span>{deliveryFee > 0 ? `$${deliveryFee.toFixed(2)}` : "Free"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">VAT (18%)</span>
-                    <span>${vat.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between font-semibold text-base pt-2 border-t border-border">
-                    <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Place Order Button - Desktop only, positioned in right column */}
-              <button
-                type="submit"
-                form="checkout-form"
-                className="btn w-full hidden lg:flex"
-                disabled={submitting || items.length === 0}
-                onClick={(e) => {
-                  // Trigger form submission
-                  const form = document.querySelector('form');
-                  if (form) {
-                    form.requestSubmit();
-                  }
-                  e.preventDefault();
-                }}
-              >
-                {submitting ? t("processing") : `${t("placeOrder")} — $${total.toFixed(2)}`}
-              </button>
-            </aside>
           </div>
         </div>
       </main>

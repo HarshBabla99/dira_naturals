@@ -64,11 +64,11 @@ const BrandHeader = () => {
           </Link>
 
           {/* Cart Button */}
-          <button aria-label="Open cart" onClick={openCart} className="btn px-4 py-2 text-sm">
-            <ShoppingBag className="mr-2 h-4 w-4" />
+          <button aria-label="Open cart" onClick={openCart} className="btn h-10 w-10 sm:w-auto sm:px-4 p-0 sm:py-2 text-sm flex items-center justify-center">
+            <ShoppingBag className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">{t("cart")}</span>
             {count > 0 && (
-              <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1.5 text-xs text-accent-foreground font-medium">
+              <span className="ml-1 sm:ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1.5 text-xs text-accent-foreground font-medium">
                 {count}
               </span>
             )}

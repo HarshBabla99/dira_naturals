@@ -89,7 +89,11 @@ const CartSidebar = () => {
           </div>
           <div className="flex gap-3">
             <button onClick={clear} className="btn-ghost flex-1 text-base">{t("clear")}</button>
-            <Link to="/checkout" onClick={closeCart} className="btn flex-1 text-center text-base">{t("checkout")}</Link>
+            {items.length === 0 ? (
+              <span className="btn flex-1 text-center text-base opacity-50 cursor-not-allowed">{t("checkout")}</span>
+            ) : (
+              <Link to="/checkout" onClick={closeCart} className="btn flex-1 text-center text-base">{t("checkout")}</Link>
+            )}
           </div>
         </div>
       </aside>
