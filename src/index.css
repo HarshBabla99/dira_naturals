@@ -27,7 +27,10 @@
     --muted-foreground: 26 10% 38%;
 
     --accent: 18 55% 46%; /* spice terracotta */
-    --accent-foreground: 26 24% 16%;
+    --accent-foreground: 45 25% 96%;
+
+    --success: 152 45% 38%; /* nature green */
+    --success-foreground: 45 25% 96%;
 
     --destructive: 2 84% 58%;
     --destructive-foreground: 45 25% 96%;
@@ -72,7 +75,10 @@
     --muted-foreground: 42 10% 72%;
 
     --accent: 18 60% 50%; /* spice terracotta */
-    --accent-foreground: 26 25% 15%;
+    --accent-foreground: 45 25% 96%;
+
+    --success: 152 40% 45%; /* nature green */
+    --success-foreground: 26 25% 15%;
 
     --destructive: 2 62% 44%;
     --destructive-foreground: 42 25% 92%;
@@ -103,7 +109,7 @@
   .btn { @apply inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground px-6 py-3 font-medium tracking-wide transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none; }
   .btn-ghost { @apply inline-flex items-center justify-center rounded-lg border border-border bg-transparent text-foreground px-6 py-3 font-medium hover:bg-accent/10 transition-colors; }
   .btn-accent { @apply inline-flex items-center justify-center rounded-lg bg-accent text-accent-foreground px-6 py-3 font-medium hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring; }
-  .section { @apply py-20 md:py-28; }
+  .section { @apply py-16 md:py-20; }
   .heading-xl { @apply text-4xl md:text-6xl leading-tight; }
   .heading-md { @apply text-2xl md:text-3xl leading-snug; }
   .body-lg { @apply text-lg text-muted-foreground; }
